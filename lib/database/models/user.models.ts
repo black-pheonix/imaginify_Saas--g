@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import ImageModel from "./image.models";
 
 const UserSchema = new Schema ({
     clerkId: {
@@ -17,7 +18,7 @@ const UserSchema = new Schema ({
         unique: true
     },
     photo: {
-        type: Image, 
+        type: ImageModel, 
         required: true
     },
     firstName: {
