@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, SchemaTypes, model, models } from "mongoose";
 import ImageModel from "./image.models";
 
 const UserSchema = new Schema ({
@@ -18,7 +18,8 @@ const UserSchema = new Schema ({
         unique: true
     },
     photo: {
-        type: ImageModel, 
+        type: SchemaTypes.ObjectId,
+        ref: "ImageModel", 
         required: true
     },
     firstName: {
