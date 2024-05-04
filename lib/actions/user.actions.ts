@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import User from "../database/models/user.models";
 import { connectToDatabase } from "../database/mongoose";
@@ -15,7 +14,6 @@ export async function createUser(user: CreateUserParams) {
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     handleError(error);
-
   }
 }
 

@@ -25,6 +25,8 @@ export const connectToDatabase = async() => {
             dbName:'imaginify', bufferCommands: false}
     )
 
+    console.log("Connected");
+
     cached.conn = await cached.promise
     return cached.conn
 }

@@ -1,5 +1,4 @@
 import { Schema, SchemaTypes, model, models } from "mongoose";
-import ImageModel from "./image.models";
 
 const UserSchema = new Schema ({
     clerkId: {
@@ -18,7 +17,7 @@ const UserSchema = new Schema ({
         unique: true
     },
     photo: {
-        type: SchemaTypes.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "ImageModel", 
         required: true
     },
@@ -29,7 +28,7 @@ const UserSchema = new Schema ({
         type: String
     },
     planId: {
-        type: String, 
+        type: Number, 
         default: 1
     },
     creditBalance: {
