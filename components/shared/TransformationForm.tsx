@@ -18,7 +18,6 @@ import { getCldImageUrl } from 'next-cloudinary';
 import { addImage, updateImage } from '@/lib/actions/image.actions';
 import { useRouter } from 'next/navigation';
 import { InsufficientCreditsModel } from './InsufficientCreditsModel';
-const router = useRouter();
 
 export const formSchema = z.object({
     title: z.string(),
@@ -30,6 +29,7 @@ export const formSchema = z.object({
 })
 
 const TransformationForm = ({action, data = null, userId, type,creditBalance, config = null} : TransformationFormProps) => {
+    const router = useRouter();
     const transformationType = transformationTypes[type];
     const [image, setImage] = useState(data)
     const [newTransformation, setNewTransformation] = useState<Transformations | null>(null);
