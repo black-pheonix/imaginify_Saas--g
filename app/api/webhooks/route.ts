@@ -7,21 +7,21 @@ import { Webhook } from "svix";
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 
 export async function POST(req: Request) {
-  const WEBHOOKSECRET = process.env.WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  console.log(WEBHOOK_SECRET);
 
-  if (!WEBHOOKSECRET) {
+  if (!WEBHOOK_SECRET) {
     throw new Error(
       "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
     );
   }
-  console.log('svix')
 
   // Get the headers
   const headerPayload = headers();
+  console.log(headerPayload);
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
-  console.log(svix_id);
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
@@ -35,9 +35,11 @@ export async function POST(req: Request) {
   const body = JSON.stringify(payload);
 
   // Create a new Svix instance with your secret.
-  const wh = new Webhook(WEBHOOKSECRET);
+  const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
+
+  console.log(body);
 
   // Verify the payload with the headers
   try {
@@ -52,13 +54,13 @@ export async function POST(req: Request) {
       status: 400,
     });
   }
+  console.log(evt);
 
   // Get the ID and type
   const { id } = evt.data;
-  const eventType = evt.type;
 
   // CREATE
-  if (eventType === "user.created") {
+  if (evt.type === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
@@ -86,7 +88,7 @@ export async function POST(req: Request) {
   }
 
   // UPDATE
-  if (eventType === "user.updated") {
+  if (evt.type === "user.updated") {
     const { id, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
@@ -103,7 +105,7 @@ export async function POST(req: Request) {
   }
 
   // DELETE
-  if (eventType === "user.deleted") {
+  if (evt.type === "user.deleted") {
     const { id } = evt.data;
 
     const deletedUser = await deleteUser(id!);
@@ -111,7 +113,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "OK", user: deletedUser });
   }
 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
+  console.log(`Webhook with and ID of ${id} and type of ${evt.type}`);
   console.log("Webhook body:", body);
 
   return new Response("", { status: 200 });
