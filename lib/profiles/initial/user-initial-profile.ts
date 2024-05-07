@@ -1,8 +1,8 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { redirectToSignIn } from "@clerk/nextjs/server";
-import { createUser, getUserById } from "./actions/user.actions";
+import { createUser, getUserById } from "../../actions/user.actions";
 
-export const initialProfile = async () => {
+export const userinitialProfile = async () => {
   const user = await currentUser();
 
   if (!user) {
