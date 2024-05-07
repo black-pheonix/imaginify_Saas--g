@@ -13,13 +13,10 @@ const UserSchema = new Schema ({
     },
     username: {
         type: String, 
-        required: true, 
-        unique: true
+        required: true,
     },
     photo: {
-        type: Schema.Types.ObjectId,
-        ref: "ImageModel", 
-        required: true
+        type: String
     },
     firstName: {
         type: String
